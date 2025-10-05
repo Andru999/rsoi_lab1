@@ -51,6 +51,28 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
-tasks.getByName<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
+// Явно укажите главный класс
+springBoot {
+    mainClass.set("ru.gorynkin.personservice.PersonServiceApplicationKt")
+}
+
+// Конфигурация bootJar
+tasks.withType<org.springframework.boot.gradle.tasks.bundling.BootJar> {
     archiveFileName.set("app.jar")
+    manifest {
+        attributes(
+            "Main-Class" to "org.springframework.boot.loader.JarLauncher",
+            "Start-Class" to "ru.gorynkin.personservice.PersonServiceApplicationKt"
+        )
+    }
+}
+
+// Отключите обычный jar task чтобы избежать конфликтов
+tasks.withType<Jar> {
+    enabled = false
+}
+
+// Убедитесь, что bootJar включен
+tasks.getByName<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
+    enabled = true
 }

@@ -20,7 +20,7 @@ COPY src src
 RUN ./gradlew build -x test --no-daemon
 
 # Финальный этап
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:11-jre-alpine
 
 # Устанавливаем рабочую директорию
 WORKDIR /app
