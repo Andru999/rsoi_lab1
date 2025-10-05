@@ -1,7 +1,6 @@
-version: "3"
 services:
   postgres:
-    image: library/postgres:13
+    image: library/postgres:16
     container_name: postgres
     restart: on-failure
     environment:

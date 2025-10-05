@@ -1,0 +1,53 @@
+package ru.gorynkin.personservice.web
+
+import ru.gorynkin.personservice.dto.PatchPersonRequest
+import ru.gorynkin.personservice.dto.PersonRequest
+import ru.gorynkin.personservice.dto.PersonResponse
+import ru.gorynkin.personservice.service.PersonService
+import kotlinx.coroutines.flow.Flow
+import org.springframework.http.ResponseEntity
+import org.springframework.http.server.reactive.ServerHttpRequest
+import org.springframework.web.bind.annotation.*
+import org.springframework.web.util.UriComponentsBuilder
+import javax.validation.Valid
+
+@RestController
+@RequestMapping("/persons")
+class PersonController(val personService: PersonService) {
+
+    @GetMapping("/{id}")
+    suspend fun getPerson(@PathVariable id: Int): ResponseEntity<ru.gorynkin.personservice.dto.PersonResponse> =
+        ResponseEntity.ok().body(personService.getPerson(id))
+
+    @GetMapping
+    fun getAllPeople(): ResponseEntity<Flow<ru.gorynkin.personservice.dto.PersonResponse>> = ResponseEntity.ok().body(personService.getAllPeople())
+
+    @PostMapping
+    suspend fun createPerson(@Valid @RequestBody person: ru.gorynkin.personservice.dto.PersonRequest, request: ServerHttpRequest): ResponseEntity<Unit> {
+        val createdPersonId = personService.createPerson(person)
+
+        return ResponseEntity.created(
+            UriComponentsBuilder.fromHttpRequest(request)
+                .path("/{id}")
+                .buildAndExpand(createdPersonId)
+                .toUri()
+        ).build()
+    }
+
+    @PatchMapping("/{id}")
+    suspend fun updatePerson(
+        @PathVariable id: Int,
+        @Valid @RequestBody person: ru.gorynkin.personservice.dto.PatchPersonRequest
+    ): ResponseEntity<ru.gorynkin.personservice.dto.PersonResponse> {
+        val updatedPerson = personService.updatePerson(id, person)
+
+        return ResponseEntity.ok()
+            .body(updatedPerson)
+    }
+
+    @DeleteMapping("/{id}")
+    suspend fun deletePerson(@PathVariable id: Int): ResponseEntity<Unit> {
+        personService.deletePerson(id)
+        return ResponseEntity.noContent().build()
+    }
+}
