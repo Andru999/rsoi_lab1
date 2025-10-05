@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: person-service
+    env: java
+    buildCommand: ./gradlew build
+    startCommand: java -jar build/libs/*.jar
+    envVars:
+      - key: JAVA_VERSION
+        value: 11

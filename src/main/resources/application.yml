@@ -2,9 +2,9 @@ spring:
   application:
     name: person-service
   r2dbc:
-    url: r2dbc:postgresql://localhost:5432/persons
-    password: test
-    username: program
+    url: ${SPRING_R2DBC_URL:r2dbc:postgresql://localhost:5432/persons}
+    password: ${SPRING_R2DBC_PASSWORD:test}
+    username: ${SPRING_R2DBC_USERNAME:program}
   webflux:
     base-path: /api/v1
   jackson:

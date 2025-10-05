@@ -52,5 +52,5 @@ tasks.withType<Test> {
 }
 
 tasks.getByName<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
-    archiveFileName.set("${project.name}.jar")
+    archiveFileName.set("app.jar")
 }
