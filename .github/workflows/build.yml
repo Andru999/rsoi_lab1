@@ -36,7 +36,7 @@ jobs:
           echo "Waiting for Render deployment: $RENDER_URL"
           
           # Пытаемся сделать health check каждые 10 секунд в течение 3 минут
-          for i in {1..30}; do
+          for i in {1..60}; do
            if curl -f -s "$RENDER_URL/health" > /dev/null; then
              echo "Render app is ready!"
              break
@@ -45,7 +45,7 @@ jobs:
              sleep 10
            fi
           
-           if [ $i -eq 30 ]; then
+           if [ $i -eq 60 ]; then
              echo "ERROR Render app did not become ready in time"
              exit 1
            fi
