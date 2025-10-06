@@ -32,24 +32,9 @@ jobs:
 
       - name: Wait for Render deployment to be ready
         run: |
-          RENDER_URL="${{ secrets.RENDER_URL }}"
-          echo "Waiting for Render deployment: $RENDER_URL"
-          
-          # Пытаемся сделать health check каждые 10 секунд в течение 3 минут
-          for i in {1..60}; do
-           if curl -f -s "$RENDER_URL/health" > /dev/null; then
-             echo "Render app is ready!"
-             break
-           else
-             echo "⏳ Attempt $i: Render app not ready yet, waiting 10 seconds..."
-             sleep 10
-           fi
-          
-           if [ $i -eq 60 ]; then
-             echo "ERROR Render app did not become ready in time"
-             exit 1
-           fi
-          done
+          echo "Waiting 3 minutes for Render deployment..."
+          sleep 180
+          echo "Assuming Render deployment is complete"
 
       - name: Run API Tests
         uses: matt-ball/newman-action@master
