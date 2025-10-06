@@ -1,10 +1,10 @@
 package ru.gorynkin.personservice.service
 
-import io.gryteck.personservice.domain.*
+import ru.gorynkin.personservice.domain.*
 import ru.gorynkin.personservice.exception.EntityNotFoundException
-import io.gryteck.personservice.mapper.toPersonEntity
-import io.gryteck.personservice.mapper.toPersonResponse
-import io.gryteck.personservice.repository.PersonRepository
+import ru.gorynkin.personservice.mapper.toPersonEntity
+import ru.gorynkin.personservice.mapper.toPersonResponse
+import ru.gorynkin.personservice.repository.PersonRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.confirmVerified
